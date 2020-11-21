@@ -1,21 +1,28 @@
 #include "IRremote.h" //IR remote library
 #include "TFT_eSPI.h" //TFT LCD library
 #include "samsung_codes.h"
+#include "lg_codes.h"
+
 
 TFT_eSPI tft; //Initializing TFT LCD library
 TFT_eSprite spr = TFT_eSprite(&tft); //Initializing the buffer
 IRsend irsend; //Initializing IR Emitter
 
 int tv_manufacturer_index = 0;
-unsigned int *tv_power = SAMSUNG_POWER;
-unsigned int *tv_mute = SAMSUNG_MUTE;
-unsigned int *tv_chup = SAMSUNG_CHUP;
-unsigned int *tv_chdown = SAMSUNG_CHDOWN;
-unsigned int *tv_volup = SAMSUNG_VOLUP;
-unsigned int *tv_voldown = SAMSUNG_VOLDOWN;
-int tv_command_length = 0;
-int tv_freq = 0;
+int num_tv_manufacturers = 2;
+int tv_freq = SAMSUNG_FREQ;
+int tv_command_length = SAMSUNG_COMMAND_LENGTH;
 
+unsigned int tv_power[100];
+unsigned int tv_mute[100];
+unsigned int tv_volup[100];
+unsigned int tv_voldown[100];
+unsigned int tv_chup[100];
+unsigned int tv_chdown[100];
+
+
+
+//////////////////////////////////////////////////////////////////////////
 void setup() {
   //Configuring the buttons and the 5-way switch as inputs
   pinMode(WIO_KEY_A, INPUT);
@@ -60,53 +67,64 @@ void setup() {
   spr.drawString("VOL", 230, 125);
   spr.drawCircle(250, 85, 25, TFT_DARKGREEN);
   spr.drawCircle(250, 185, 25, TFT_RED);
+
+  memset(tv_power, 0, sizeof(tv_power));
+  memset(tv_mute, 0, sizeof(tv_mute));
+  memset(tv_volup, 0, sizeof(tv_volup));
+  memset(tv_voldown, 0, sizeof(tv_voldown));
+  memset(tv_chup, 0, sizeof(tv_chup));
+  memset(tv_chdown, 0, sizeof(tv_chdown));
 }
 
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////
 void loop() {
 
   //step through the different tv manufacturers
   if (digitalRead(WIO_KEY_C) == LOW) {
     tv_manufacturer_index++;
-    if (tv_manufacturer_index > 12) {
+    if (tv_manufacturer_index > num_tv_manufacturers - 1) {
       tv_manufacturer_index = 0;
     }
-    changeTVSettings();
-    delay(1000);
+    update_tv_settings();
   }
 
   //power button
   else if (digitalRead(WIO_KEY_A) == LOW) { //Detecting the button press
-    irsend.sendRaw(tv_power, tv_command_length, tv_freq); //Pass the array, array length, carrier frequency
+    irsend.sendRaw(tv_power, tv_command_length, tv_freq);
     tft.fillCircle(57, 90, 40, TFT_RED); //Fill circle with red color
     delay(1000);
   }
   //mute button
   else if (digitalRead(WIO_KEY_B) == LOW) {
-    irsend.sendRaw(SAMSUNG_MUTE, tv_command_length, tv_freq);
+    irsend.sendRaw(tv_mute, tv_command_length, tv_freq);
     tft.fillCircle(57, 180, 40, TFT_BLUE);
     delay(1000);
   }
   //volume up switch
   else if (digitalRead(WIO_5S_UP) == LOW) {
-    irsend.sendRaw(SAMSUNG_VOLUP, tv_command_length, tv_freq);
+    irsend.sendRaw(tv_volup, tv_command_length, tv_freq);
     tft.fillCircle(250, 85, 25, TFT_DARKGREEN);
     delay(1000);
   }
   //volume down switch
   else if (digitalRead(WIO_5S_DOWN) == LOW) {
-    irsend.sendRaw(SAMSUNG_VOLDOWN, tv_command_length, tv_freq);
+    irsend.sendRaw(tv_voldown, tv_command_length, tv_freq);
     tft.fillCircle(250, 185, 25, TFT_RED);
     delay(1000);
   }
   //channel up switch
   else if (digitalRead(WIO_5S_RIGHT) == LOW) {
-    irsend.sendRaw(SAMSUNG_CHUP, tv_command_length, tv_freq);
+    irsend.sendRaw(tv_chup, tv_command_length, tv_freq);
     tft.fillCircle(173, 85, 25, TFT_DARKGREEN);
     delay(1000);
   }
   //channel down switch
   else if (digitalRead(WIO_5S_LEFT) == LOW) {
-    irsend.sendRaw(SAMSUNG_CHDOWN, tv_command_length, tv_freq);
+    irsend.sendRaw(tv_chdown, tv_command_length, tv_freq);
     tft.fillCircle(173, 185, 25, TFT_RED);
     delay(1000);
   }
@@ -123,22 +141,98 @@ void loop() {
 
 
 
-void changeTVSettings() {
+/////////////////////////////////////////////////////////////////////////////////
+void update_tv_settings() {
+
+  spr.fillRect(0, 0, 320, 45, TFT_DARKGREEN);
+  spr.setTextSize(3);
+  spr.setTextColor(TFT_WHITE);
+
   switch (tv_manufacturer_index) {
-    case 0:
-      tv_power = SAMSUNG_POWER;
-      tv_mute = SAMSUNG_MUTE;
-      tv_volup = SAMSUNG_VOLUP;
-      tv_voldown = SAMSUNG_VOLDOWN;
-      tv_chup = SAMSUNG_CHUP;
-      tv_chdown = SAMSUNG_CHDOWN;
-      tv_command_length = SAMSUNG_COMMANDLENGTH;
+    case 0:  //SAMSUNG
+      tv_command_length = SAMSUNG_COMMAND_LENGTH;
       tv_freq = SAMSUNG_FREQ;
+      memset(tv_power, 0, sizeof(tv_power));
+      memcpy(tv_power, SAMSUNG_POWER, sizeof(SAMSUNG_POWER));
+
+      memset(tv_mute, 0, sizeof(tv_mute));
+      memcpy(tv_mute, SAMSUNG_MUTE, sizeof(SAMSUNG_MUTE));
+
+      memset(tv_volup, 0, sizeof(tv_volup));
+      memcpy(tv_volup, SAMSUNG_VOLUP, sizeof(SAMSUNG_VOLUP));
+
+      memset(tv_voldown, 0, sizeof(tv_voldown));
+      memcpy(tv_voldown, SAMSUNG_VOLDOWN, sizeof(SAMSUNG_VOLDOWN));
+
+      memset(tv_chup, 0, sizeof(tv_chup));
+      memcpy(tv_chup, SAMSUNG_CHUP, sizeof(SAMSUNG_CHUP));
+
+      memset(tv_chdown, 0, sizeof(tv_chdown));
+      memcpy(tv_chdown, SAMSUNG_CHDOWN, sizeof(SAMSUNG_CHDOWN));
+
+      spr.drawString("SAMSUNG", 80, 10);
+      spr.pushSprite(0, 0); //Push to LCD
+      delay(2000);
       break;
-      
-    default:
-      tv_power = SAMSUNG_POWER;
-      tv_command_length = SAMSUNG_COMMANDLENGTH;
+
+
+
+
+    case 1:  //LG
+      tv_command_length = LG_COMMAND_LENGTH;
+      tv_freq = LG_FREQ;
+
+      memset(tv_power, 0, sizeof(tv_power));
+      memcpy(tv_power, LG_POWER, sizeof(LG_POWER));
+
+      memset(tv_mute, 0, sizeof(tv_mute));
+      memcpy(tv_mute, LG_MUTE, sizeof(LG_MUTE));
+
+      memset(tv_volup, 0, sizeof(tv_volup));
+      memcpy(tv_volup, LG_VOLUP, sizeof(LG_VOLUP));
+
+      memset(tv_voldown, 0, sizeof(tv_voldown));
+      memcpy(tv_voldown, LG_VOLDOWN, sizeof(LG_VOLDOWN));
+
+      memset(tv_chup, 0, sizeof(tv_chup));
+      memcpy(tv_chup, LG_CHUP, sizeof(LG_CHUP));
+
+      memset(tv_chdown, 0, sizeof(tv_chdown));
+      memcpy(tv_chdown, LG_CHDOWN, sizeof(LG_CHDOWN));
+
+      spr.drawString("LG", 80, 10);
+      spr.pushSprite(0, 0); //Push to LCD
+      delay(2000);
+      break;
+
+
+
+
+
+
+    default:    //SAMSUNG
+      tv_command_length = SAMSUNG_COMMAND_LENGTH;
       tv_freq = SAMSUNG_FREQ;
+      memset(tv_power, 0, sizeof(tv_power));
+      memcpy(tv_power, SAMSUNG_POWER, sizeof(SAMSUNG_POWER));
+
+      memset(tv_mute, 0, sizeof(tv_mute));
+      memcpy(tv_mute, SAMSUNG_MUTE, sizeof(SAMSUNG_MUTE));
+
+      memset(tv_volup, 0, sizeof(tv_volup));
+      memcpy(tv_volup, SAMSUNG_VOLUP, sizeof(SAMSUNG_VOLUP));
+
+      memset(tv_voldown, 0, sizeof(tv_voldown));
+      memcpy(tv_voldown, SAMSUNG_VOLDOWN, sizeof(SAMSUNG_VOLDOWN));
+
+      memset(tv_chup, 0, sizeof(tv_chup));
+      memcpy(tv_chup, SAMSUNG_CHUP, sizeof(SAMSUNG_CHUP));
+
+      memset(tv_chdown, 0, sizeof(tv_chdown));
+      memcpy(tv_chdown, SAMSUNG_CHDOWN, sizeof(SAMSUNG_CHDOWN));
+
+      spr.drawString("SAMSUNG", 80, 10);
+      spr.pushSprite(0, 0); //Push to LCD
+      delay(2000);
   }
 }

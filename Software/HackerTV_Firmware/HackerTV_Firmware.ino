@@ -4,6 +4,9 @@
 #include "lg_codes.h"
 
 
+#define MAX_COMMAND_SIZE 100
+
+
 TFT_eSPI tft; //Initializing TFT LCD library
 TFT_eSprite spr = TFT_eSprite(&tft); //Initializing the buffer
 IRsend irsend; //Initializing IR Emitter
@@ -13,12 +16,12 @@ int num_tv_manufacturers = 2;
 
 int tv_freq = SAMSUNG_FREQ;
 int tv_command_length = SAMSUNG_COMMAND_LENGTH;
-unsigned int tv_power[100];
-unsigned int tv_mute[100];
-unsigned int tv_volup[100];
-unsigned int tv_voldown[100];
-unsigned int tv_chup[100];
-unsigned int tv_chdown[100];
+unsigned int tv_power[MAX_COMMAND_SIZE];
+unsigned int tv_mute[MAX_COMMAND_SIZE];
+unsigned int tv_volup[MAX_COMMAND_SIZE];
+unsigned int tv_voldown[MAX_COMMAND_SIZE];
+unsigned int tv_chup[MAX_COMMAND_SIZE];
+unsigned int tv_chdown[MAX_COMMAND_SIZE];
 
 
 

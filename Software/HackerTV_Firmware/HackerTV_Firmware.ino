@@ -10,9 +10,9 @@ IRsend irsend; //Initializing IR Emitter
 
 int tv_manufacturer_index = 0;
 int num_tv_manufacturers = 2;
+
 int tv_freq = SAMSUNG_FREQ;
 int tv_command_length = SAMSUNG_COMMAND_LENGTH;
-
 unsigned int tv_power[100];
 unsigned int tv_mute[100];
 unsigned int tv_volup[100];
@@ -98,36 +98,53 @@ void loop() {
     tft.fillCircle(57, 90, 40, TFT_RED); //Fill circle with red color
     delay(1000);
   }
+
+  
   //mute button
   else if (digitalRead(WIO_KEY_B) == LOW) {
     irsend.sendRaw(tv_mute, tv_command_length, tv_freq);
     tft.fillCircle(57, 180, 40, TFT_BLUE);
     delay(1000);
   }
+
+
+  
   //volume up switch
   else if (digitalRead(WIO_5S_UP) == LOW) {
     irsend.sendRaw(tv_volup, tv_command_length, tv_freq);
     tft.fillCircle(250, 85, 25, TFT_DARKGREEN);
     delay(1000);
   }
+
+
+  
   //volume down switch
   else if (digitalRead(WIO_5S_DOWN) == LOW) {
     irsend.sendRaw(tv_voldown, tv_command_length, tv_freq);
     tft.fillCircle(250, 185, 25, TFT_RED);
     delay(1000);
   }
+
+
+  
   //channel up switch
   else if (digitalRead(WIO_5S_RIGHT) == LOW) {
     irsend.sendRaw(tv_chup, tv_command_length, tv_freq);
     tft.fillCircle(173, 85, 25, TFT_DARKGREEN);
     delay(1000);
   }
+
+
+  
   //channel down switch
   else if (digitalRead(WIO_5S_LEFT) == LOW) {
     irsend.sendRaw(tv_chdown, tv_command_length, tv_freq);
     tft.fillCircle(173, 185, 25, TFT_RED);
     delay(1000);
   }
+
+
+
 
   spr.fillRect(0, 0, 320, 45, TFT_DARKGREEN);
   spr.setTextSize(3);
@@ -200,7 +217,7 @@ void update_tv_settings() {
       memset(tv_chdown, 0, sizeof(tv_chdown));
       memcpy(tv_chdown, LG_CHDOWN, sizeof(LG_CHDOWN));
 
-      spr.drawString("LG", 80, 10);
+      spr.drawString("LG", 150, 10);
       spr.pushSprite(0, 0); //Push to LCD
       delay(2000);
       break;

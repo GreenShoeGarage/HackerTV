@@ -1,5 +1,5 @@
-#ifndef lg_codes
-#define lg_codes
+#ifndef lg_codes_h
+#define lg_codes_h
 
 
 const int LG_COMMAND_LENGTH = 68;

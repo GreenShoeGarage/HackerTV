@@ -1,5 +1,5 @@
-#ifndef samsung_codes
-#define samsung_codes
+#ifndef samsung_codes_h
+#define samsung_codes_h
 
 
 const int SAMSUNG_COMMAND_LENGTH = 68;

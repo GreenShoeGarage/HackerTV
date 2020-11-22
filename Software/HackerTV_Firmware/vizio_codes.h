@@ -1,5 +1,5 @@
-#ifndef vizio_codes
-#define vizio_codes
+#ifndef vizio_codes_h
+#define vizio_codes_h
 
 
 const int VIZIO_COMMAND_LENGTH = 68;

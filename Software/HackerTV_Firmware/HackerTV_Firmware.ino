@@ -1,7 +1,8 @@
 #include <IRremote.h>
 #include <TFT_eSPI.h>
-#include "samsung_codes.h"
-#include "lg_codes.h"
+#include "samsung_codes.h"  // tv_manufacturer_index = 0
+#include "lg_codes.h"       // tv_manufacturer_index = 1
+#include "vizio_codes.h"    // tv_manufacturer_index = 2
 
 
 #define MAX_COMMAND_SIZE 100
@@ -12,7 +13,7 @@ TFT_eSprite spr = TFT_eSprite(&tft); //Initializing the buffer
 IRsend irsend; //Initializing IR Emitter
 
 int tv_manufacturer_index = 0;
-int num_tv_manufacturers = 2;
+int num_tv_manufacturers = 3;
 
 int tv_freq = SAMSUNG_FREQ;
 int tv_command_length = SAMSUNG_COMMAND_LENGTH;
@@ -72,11 +73,22 @@ void setup() {
   spr.drawCircle(250, 185, 25, TFT_RED);
 
   memset(tv_power, 0, sizeof(tv_power));
+  memcpy(tv_power, SAMSUNG_POWER, sizeof(SAMSUNG_POWER));
+
   memset(tv_mute, 0, sizeof(tv_mute));
+  memcpy(tv_mute, SAMSUNG_MUTE, sizeof(SAMSUNG_MUTE));
+
   memset(tv_volup, 0, sizeof(tv_volup));
+  memcpy(tv_volup, SAMSUNG_VOLUP, sizeof(SAMSUNG_VOLUP));
+
   memset(tv_voldown, 0, sizeof(tv_voldown));
+  memcpy(tv_voldown, SAMSUNG_VOLDOWN, sizeof(SAMSUNG_VOLDOWN));
+
   memset(tv_chup, 0, sizeof(tv_chup));
+  memcpy(tv_chup, SAMSUNG_CHUP, sizeof(SAMSUNG_CHUP));
+
   memset(tv_chdown, 0, sizeof(tv_chdown));
+  memcpy(tv_chdown, SAMSUNG_CHDOWN, sizeof(SAMSUNG_CHDOWN));
 }
 
 
@@ -102,7 +114,7 @@ void loop() {
     delay(1000);
   }
 
-  
+
   //mute button
   else if (digitalRead(WIO_KEY_B) == LOW) {
     irsend.sendRaw(tv_mute, tv_command_length, tv_freq);
@@ -111,7 +123,7 @@ void loop() {
   }
 
 
-  
+
   //volume up switch
   else if (digitalRead(WIO_5S_UP) == LOW) {
     irsend.sendRaw(tv_volup, tv_command_length, tv_freq);
@@ -120,7 +132,7 @@ void loop() {
   }
 
 
-  
+
   //volume down switch
   else if (digitalRead(WIO_5S_DOWN) == LOW) {
     irsend.sendRaw(tv_voldown, tv_command_length, tv_freq);
@@ -129,7 +141,7 @@ void loop() {
   }
 
 
-  
+
   //channel up switch
   else if (digitalRead(WIO_5S_RIGHT) == LOW) {
     irsend.sendRaw(tv_chup, tv_command_length, tv_freq);
@@ -138,7 +150,7 @@ void loop() {
   }
 
 
-  
+
   //channel down switch
   else if (digitalRead(WIO_5S_LEFT) == LOW) {
     irsend.sendRaw(tv_chdown, tv_command_length, tv_freq);
@@ -227,7 +239,32 @@ void update_tv_settings() {
 
 
 
+    case 2:  //VIZIO
+      tv_command_length = VIZIO_COMMAND_LENGTH;
+      tv_freq = VIZIO_FREQ;
 
+      memset(tv_power, 0, sizeof(tv_power));
+      memcpy(tv_power, VIZIO_POWER, sizeof(VIZIO_POWER));
+
+      memset(tv_mute, 0, sizeof(tv_mute));
+      memcpy(tv_mute, VIZIO_MUTE, sizeof(VIZIO_MUTE));
+
+      memset(tv_volup, 0, sizeof(tv_volup));
+      memcpy(tv_volup, VIZIO_VOLUP, sizeof(VIZIO_VOLUP));
+
+      memset(tv_voldown, 0, sizeof(tv_voldown));
+      memcpy(tv_voldown, VIZIO_VOLDOWN, sizeof(VIZIO_VOLDOWN));
+
+      memset(tv_chup, 0, sizeof(tv_chup));
+      memcpy(tv_chup, VIZIO_CHUP, sizeof(VIZIO_CHUP));
+
+      memset(tv_chdown, 0, sizeof(tv_chdown));
+      memcpy(tv_chdown, VIZIO_CHDOWN, sizeof(VIZIO_CHDOWN));
+
+      spr.drawString("VIZIO", 120, 10);
+      spr.pushSprite(0, 0); //Push to LCD
+      delay(2000);
+      break;
 
 
     default:    //SAMSUNG

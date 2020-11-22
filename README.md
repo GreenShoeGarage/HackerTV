@@ -11,3 +11,12 @@
 This project is based on:
  - https://www.youtube.com/watch?v=C9AlljLst2o
  - https://github.com/lakshanthad/Wio_Terminal_Classroom_Arduino/tree/main/Classroom%2011
+
+
+To add a new TV do the following:
+
+- create a header file (mytv.h)  use an existing header file as an example
+- #include your header in HackerTV_Firmware.ino
+- increment num_tv_manufacturers in HackerTV_Firmware.ino
+- Add a new entry the HACKERTV tv Struct.  Follow the example of what is already there.
+- A case in the SWITCH statement found in the function void initialize_tv_settings() which is found towards the bottom of HackerTV_Firmware.ino

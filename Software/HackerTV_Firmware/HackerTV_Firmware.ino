@@ -190,7 +190,7 @@ void update_tv_settings() {
       memset(tv_chdown, 0, sizeof(tv_chdown));
       memcpy(tv_chdown, SAMSUNG_CHDOWN, sizeof(SAMSUNG_CHDOWN));
 
-      spr.drawString("SAMSUNG", 80, 10);
+      spr.drawString("SAMSUNG", 100, 10);
       spr.pushSprite(0, 0); //Push to LCD
       delay(2000);
       break;
@@ -251,7 +251,7 @@ void update_tv_settings() {
       memset(tv_chdown, 0, sizeof(tv_chdown));
       memcpy(tv_chdown, SAMSUNG_CHDOWN, sizeof(SAMSUNG_CHDOWN));
 
-      spr.drawString("SAMSUNG", 80, 10);
+      spr.drawString("SAMSUNG", 100, 10);
       spr.pushSprite(0, 0); //Push to LCD
       delay(2000);
   }

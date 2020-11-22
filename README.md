@@ -1,5 +1,5 @@
 # HackerTV
- Turning a Seeed Wio Terminal into a Universal TV Remote
+ Turning a Seeed Wio Terminal into a modular Universal TV Remote
  
 - IR Library: https://github.com/Seeed-Studio/Seeed_Arduino_IRSendRev
 - Display Library: https://github.com/Seeed-Studio/Seeed_Arduino_LCD

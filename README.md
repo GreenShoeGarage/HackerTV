@@ -1,2 +1,2 @@
 # HackerTV
- Turning Seeed Wio into a Universal TV Remote
+ Turning a Seeed Wio Terminal into a Universal TV Remote

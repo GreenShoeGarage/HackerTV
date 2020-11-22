@@ -20,6 +20,9 @@ HACKERTV tv[] = {
   {VIZIO_FREQ, VIZIO_COMMAND_LENGTH, {0}, {0}, {0}, {0}, {0}, {0}, "VIZIO"}
 };
 
+
+
+
 //////////////////////////////////////////////////////////////////////////
 void setup() {
   //Configuring the buttons and the 5-way switch as inputs
@@ -40,46 +43,8 @@ void setup() {
     initialize_tv_settings();
   }
 
-  spr.fillSprite(TFT_WHITE); //Setting Background color
-  spr.fillRect(0, 0, 320, 45, TFT_DARKGREEN);
-  spr.setTextSize(3);
-  spr.setTextColor(TFT_WHITE);
-  spr.drawString("Hacker TV v0.0.1", 20, 10);
-
-  //Draw power button
-  spr.setTextSize(2);
-  spr.setTextColor(TFT_BLACK);
-  spr.drawCircle(57, 90, 40, TFT_RED); //Drawing circle with red outline
-  spr.drawString("POWER", 30, 85);
-
-  //Draw mute button
-  spr.drawCircle(57, 180, 40, TFT_BLUE);
-  spr.drawString("MUTE", 35, 175);
-
-  //Draw verticle line
-  spr.drawFastVLine(115, 0, 240, TFT_DARKGREEN);
-
-  //Draw channel buttons
-  spr.setTextSize(3);
-  spr.drawString("CH", 155, 125);
-  spr.drawCircle(173, 85, 25, TFT_DARKGREEN);
-  spr.drawCircle(173, 185, 25, TFT_RED);
-
-  //Draw volume buttons
-  spr.drawString("VOL", 230, 125);
-  spr.drawCircle(250, 85, 25, TFT_DARKGREEN);
-  spr.drawCircle(250, 185, 25, TFT_RED);
-
-  spr.pushSprite(0, 0); //Push to LCD
-  delay(2000);
-  spr.fillRect(0, 0, 320, 45, TFT_DARKGREEN);
-  spr.setTextSize(3);
-  spr.setTextColor(TFT_WHITE);
-  spr.drawString(tv[tv_manufacturer_index].tv_manufacturer_name, 10, 10);
-  spr.pushSprite(0, 0); //Push to LCD
+  init_screen();
 }
-
-
 
 
 
@@ -92,14 +57,21 @@ void loop() {
     if (tv_manufacturer_index > num_tv_manufacturers - 1) {
       tv_manufacturer_index = 0;
     }
+    //update display
+    spr.fillRect(0, 0, 320, 45, TFT_DARKGREEN);
+    spr.setTextSize(3);
+    spr.setTextColor(TFT_WHITE);
+    spr.drawString(tv[tv_manufacturer_index].tv_manufacturer_name, 10, 10);
+    spr.pushSprite(0, 0); //Push to LCD
     delay(DELAYAMOUNT);
+
   }
 
   //power button
   else if (digitalRead(WIO_KEY_A) == LOW) { //Detecting the button press
     irsend.sendRaw(tv[tv_manufacturer_index].tv_power, tv[tv_manufacturer_index].tv_command_length, tv[tv_manufacturer_index].tv_freq);
     tft.fillCircle(57, 90, 40, TFT_RED); //Fill circle with red color
-    delay(1000);
+    delay(DELAYAMOUNT);
   }
 
   //mute button
@@ -137,11 +109,6 @@ void loop() {
     delay(DELAYAMOUNT);
   }
 
-  //update display
-  spr.fillRect(0, 0, 320, 45, TFT_DARKGREEN);
-  spr.setTextSize(3);
-  spr.setTextColor(TFT_WHITE);
-  spr.drawString(tv[tv_manufacturer_index].tv_manufacturer_name, 10, 10);
   spr.pushSprite(0, 0); //Push to LCD
 }
 
@@ -187,4 +154,49 @@ void initialize_tv_settings() {
       memcpy(tv[tv_manufacturer_index].tv_chup, SAMSUNG_CHUP, sizeof(SAMSUNG_CHUP));
       memcpy(tv[tv_manufacturer_index].tv_chdown, SAMSUNG_CHDOWN, sizeof(SAMSUNG_CHDOWN));
   }
+}
+
+
+
+
+/////////////////////////////////////////////////////////////////////
+void init_screen() {
+
+  spr.fillSprite(TFT_WHITE); //Setting Background color
+  spr.fillRect(0, 0, 320, 45, TFT_DARKGREEN);
+  spr.setTextSize(3);
+  spr.setTextColor(TFT_WHITE);
+  spr.drawString("Hacker TV v0.0.1", 20, 10);
+
+  //Draw power button
+  spr.setTextSize(2);
+  spr.setTextColor(TFT_BLACK);
+  spr.drawCircle(57, 90, 40, TFT_RED); //Drawing circle with red outline
+  spr.drawString("POWER", 30, 85);
+
+  //Draw mute button
+  spr.drawCircle(57, 180, 40, TFT_BLUE);
+  spr.drawString("MUTE", 35, 175);
+
+  //Draw verticle line
+  spr.drawFastVLine(115, 0, 240, TFT_DARKGREEN);
+
+  //Draw channel buttons
+  spr.setTextSize(3);
+  spr.drawString("CH", 155, 125);
+  spr.drawCircle(173, 85, 25, TFT_DARKGREEN);
+  spr.drawCircle(173, 185, 25, TFT_RED);
+
+  //Draw volume buttons
+  spr.drawString("VOL", 230, 125);
+  spr.drawCircle(250, 85, 25, TFT_DARKGREEN);
+  spr.drawCircle(250, 185, 25, TFT_RED);
+
+  spr.pushSprite(0, 0); //Push to LCD
+  delay(2000);
+  spr.fillRect(0, 0, 320, 45, TFT_DARKGREEN);
+  spr.setTextSize(3);
+  spr.setTextColor(TFT_WHITE);
+  spr.drawString(tv[tv_manufacturer_index].tv_manufacturer_name, 10, 10);
+  spr.pushSprite(0, 0); //Push to LCD
 }

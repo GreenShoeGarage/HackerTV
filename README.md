@@ -20,3 +20,5 @@ To add a new TV do the following:
 - increment num_tv_manufacturers in HackerTV_Firmware.ino
 - Add a new entry in the HACKERTV tv Struct.  Follow the example of what is already there.
 - Add a new Case in the SWITCH statement found in the function void initialize_tv_settings() which is found towards the bottom of HackerTV_Firmware.ino
+
+### Only use this project on TVs that you own. Don't be a jerk.

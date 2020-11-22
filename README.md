@@ -15,7 +15,7 @@ This project is based on:
 
 To add a new TV do the following:
 
-- create a header file (new_tv_example.h).  Use an existing header file as an example
+- create a header file (example_new_tv_codes.h).  Use an existing header file as an example
 - #include your header in HackerTV_Firmware.ino
 - increment num_tv_manufacturers in HackerTV_Firmware.ino
 - Add a new entry in the HACKERTV tv Struct.  Follow the example of what is already there.

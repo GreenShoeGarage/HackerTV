@@ -19,4 +19,4 @@ To add a new TV do the following:
 - #include your header in HackerTV_Firmware.ino
 - increment num_tv_manufacturers in HackerTV_Firmware.ino
 - Add a new entry in the HACKERTV tv Struct.  Follow the example of what is already there.
-- A case in the SWITCH statement found in the function void initialize_tv_settings() which is found towards the bottom of HackerTV_Firmware.ino
+- Add a new Case in the SWITCH statement found in the function void initialize_tv_settings() which is found towards the bottom of HackerTV_Firmware.ino

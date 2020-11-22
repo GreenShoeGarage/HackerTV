@@ -85,7 +85,6 @@ void loop() {
     if (tv_manufacturer_index > num_tv_manufacturers - 1) {
       tv_manufacturer_index = 0;
     }
-    update_tv_settings();
   }
 
   //power button

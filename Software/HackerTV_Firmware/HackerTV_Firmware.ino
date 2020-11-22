@@ -1,5 +1,5 @@
-#include "IRremote.h" //IR remote library
-#include "TFT_eSPI.h" //TFT LCD library
+#include <IRremote.h>
+#include <TFT_eSPI.h>
 #include "samsung_codes.h"
 #include "lg_codes.h"
 

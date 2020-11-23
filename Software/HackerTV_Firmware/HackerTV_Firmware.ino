@@ -1,3 +1,15 @@
+//*******************************************************************************
+//File: HackerTV_Firmware.ino
+//Version:  v0.0.1
+//Date Revised:  22 November 2020
+//
+//https://github.com/GreenShoeGarage/HackerTV
+//
+//Released under MIT License
+//
+//Based on work by Lakshantha Dissanayake https://github.com/lakshanthad/Wio_Terminal_Classroom_Arduino/tree/main/Classroom%2011
+//********************************************************************************
+
 #include <IRremote.h>
 #include <TFT_eSPI.h>
 #include "hackertv.h"

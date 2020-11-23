@@ -12,7 +12,6 @@ This project is based on:
  - https://www.youtube.com/watch?v=C9AlljLst2o
  - https://github.com/lakshanthad/Wio_Terminal_Classroom_Arduino/tree/main/Classroom%2011
 
-
 To add a new TV do the following:
 
 - create a header file (example_new_tv_codes.h).  Use an existing header file as an example

@@ -21,3 +21,15 @@ To add a new TV do the following:
 - Add a new Case in the SWITCH statement found in the function void initialize_tv_settings() which is found towards the bottom of HackerTV_Firmware.ino
 
 ### Only use this project on TVs that you own. Don't be a jerk.
+
+To use an external Grove IR transmitter, you must change the file IRremoteBoardDefs.h  
+It is part of the IR library.  
+The file should be found at  ..\Arduino\libraries\Seeed_Arduino_IRSendRev-master\src\private  
+
+#elif defined(ARDUINO_ARCH_SAMD)
+// use timer 3 hardcoded at this time
+#ifdef WIO_TERMINAL
+#define IR_SEND_PIN WIO_IR   // USE D0 FOR WIO TERMINALS GROVE D/A CONNECTOR,  BY DEFAULT WIO_IR SET FOR INTERNAL IR LED ON PIN D14
+#else
+#define IR_SEND_PIN 9
+#endif

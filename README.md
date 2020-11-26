@@ -29,7 +29,7 @@ The file should be found at  ..\Arduino\libraries\Seeed_Arduino_IRSendRev-master
 #elif defined(ARDUINO_ARCH_SAMD)  
 // use timer 3 hardcoded at this time  
 #ifdef WIO_TERMINAL  
-#define IR_SEND_PIN WIO_IR   // USE D0 FOR WIO TERMINALS GROVE D/A CONNECTOR,  BY DEFAULT WIO_IR SET FOR INTERNAL IR LED ON PIN D14  
+#define IR_SEND_PIN WIO_IR   // USE D0 FOR WIO TERMINAL'S EXTERNAL GROVE D/A CONNECTOR,  BY DEFAULT USES WIO_IR(D14)  
 #else  
 #define IR_SEND_PIN 9  
 #endif  
